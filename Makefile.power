@@ -29,6 +29,16 @@ FCOMMON_OPT += -O2 -frecursive -mcpu=power8 -mtune=power8 -malign-power -fno-fas
 endif
 endif
 
+ifeq ($(CORE), PPC970)
+ifeq ($(USE_OPENMP), 1)
+COMMON_OPT += -Ofast -mcpu=power4 -mtune=power4 -malign-power -DUSE_OPENMP -fno-fast-math -fopenmp
+FCOMMON_OPT += -O2 -frecursive -mcpu=power4 -mtune=power4 -malign-power -DUSE_OPENMP -fno-fast-math -fopenmp
+else
+COMMON_OPT += -Ofast -mcpu=power4 -mtune=power4 -malign-power -fno-fast-math
+FCOMMON_OPT += -O2 -frecursive -mcpu=power4 -mtune=power4 -malign-power -fno-fast-math
+endif
+endif
+
 # workaround for C->FORTRAN ABI violation in LAPACKE
 ifeq ($(F_COMPILER), GFORTRAN)
 FCOMMON_OPT += -fno-optimize-sibling-calls
